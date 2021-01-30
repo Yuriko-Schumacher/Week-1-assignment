@@ -1,0 +1,6 @@
+---
+title: "Week-1-assignment"
+author: "Yuriko Schumacher"
+date: "1/29/2021"
+output: html_document
+---
