@@ -4,3 +4,27 @@ author: "Yuriko Schumacher"
 date: "1/29/2021"
 output: html_document
 ---
+
+```{r load library and data}
+library(tidyverse)
+library(stringr)
+
+data <- read_csv("./data/mort.csv")
+data.reduced <- data %>% 
+  select(location = Location,
+         fips = FIPS,
+         category = Category,
+         mortalityRate = `% Change in Mortality Rate, 1980-2014`) %>% 
+  filter(category == "Cardiovascular diseases")
+str(data.reduced)
+
+data.refined <- data.reduced %>% 
+  filter(fips > 1000) %>% 
+  mutate(characteredFips = as.character(fips),
+         state = str_sub(characteredFips, end = -4),
+         county = str_sub(characteredFips, start = -3)) %>% 
+  select(location, mortalityRate, state, county) 
+
+write.csv(data.refined, "./data/mort-refined.csv", row.names = FALSE)
+```
+
